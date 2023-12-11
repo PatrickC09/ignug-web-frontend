@@ -40,6 +40,10 @@ export enum LabelButtonActionEnum {
   CURRICULUMS = 'Mallas Curriculares',
   SUBJECTS = 'Asignaturas',
   PARALLEL_CAPACITY = 'Capacidad Paralelos',
+  /**
+   * Moodle
+   */
+  CATEGORY = 'Lista de Categorias'
 }
 
 export enum IconButtonActionEnum {

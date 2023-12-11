@@ -20,5 +20,9 @@ export enum BreadcrumbEnum {
   INSCRIPTION_DETAILS = 'Detalle de Inscripción',
   USERS = 'Usuarios',
   TEACHER_CHARGE = 'Consolidado de notas',
-  SUBJECT_REQUIREMENTS = 'Pre y Co Requisitos'
+  SUBJECT_REQUIREMENTS = 'Pre y Co Requisitos',
+  /**
+   * Moodle
+   */
+  CATEGORIES = 'Categorias'
 }

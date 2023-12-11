@@ -1,1 +1,137 @@
-<p>category-list works!</p>
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <button
+      pButton
+      pRipple
+      type="button"
+      [icon]="IconButtonActionEnum.CREATE"
+      [label]="LabelButtonActionEnum.CREATE"
+      [loading]="coreService.isLoading"
+      [ngClass]="[ClassButtonActionEnum.CREATE]"
+    ></button>
+
+    <button
+      pButton
+      pRipple
+      type="button"
+      [icon]="PrimeIcons.EXTERNAL_LINK"
+      [label]="LabelButtonActionEnum.CATEGORY"
+      [loading]="coreService.isLoading"
+      [ngClass]="[ClassButtonActionEnum.REDIRECT_HELP, 'ml-2']"
+    ></button>
+
+    <button
+      pButton
+      pRipple
+      type="button"
+      [icon]="PrimeIcons.EXTERNAL_LINK"
+      [label]="LabelButtonActionEnum.SUBJECTS"
+      [loading]="coreService.isLoading"
+      [ngClass]="[ClassButtonActionEnum.REDIRECT_HELP, 'ml-2']"
+    ></button>
+  </div>
+  <div class="p-toolbar-group-right">
+    <p-dropdown
+      dataKey="id"
+      pTooltip="Categorias"
+      filterBy="name"
+      optionLabel="name"
+      placeholder="Seleccione una categoria..."
+    >
+    </p-dropdown>
+  </div>
+</p-toolbar>
+
+<p-table>
+  #dt1 dataKey="id" styleClass="p-datatable-striped" [value]="items"
+  [columns]="columns" [paginator]="true" paginatorPosition="top" [rows]="10"
+  [globalFilterFields]="['name']" [loading]="coreService.isLoading"
+  [(selection)]="selectedItems">
+
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <h1>
+        {{ BreadcrumbEnum.CATEGORIES }}
+      </h1>
+      <div class="p-input-icon-right ml-auto">
+        <i [class]="PrimeIcons.SEARCH"></i>
+        <input #search pInputText type="text" placeholder="Buscar..." />
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+        {{ col.header }}
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+      <th class="text-center">
+        {{ LabelButtonActionEnum.ACTIONS }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData
+    let-columns="columns"
+    let-rowIndex="rowIndex"
+  >
+    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+      <td>
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
+      <td *ngFor="let col of columns">
+        <!-- objects -->
+        <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
+          <div *ngSwitchCase="''"></div>
+        </div>
+
+        <!--Fields-->
+        <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
+          <div *ngSwitchDefault>{{ rowData[col.field] }}</div>
+          <div *ngSwitchCase="'isVisible'">
+            <p-tag
+              [severity]="rowData[col.field] ? 'success' : 'danger'"
+              [value]="rowData[col.field] | isVisible"
+            ></p-tag>
+            <p-tag
+              *ngIf="
+                moodleService.category &&
+                rowData['id'] === moodleService.category.id
+              "
+              severity="info"
+              [value]="rowData['id'] === moodleService.category.id | selected"
+              class="ml-1"
+            ></p-tag>
+          </div>
+        </div>
+      </td>
+      <td class="text-center">
+        <button
+          pButton
+          pRipple
+          type="button"
+          [icon]="PrimeIcons.ELLIPSIS_V"
+          (click)="selectItem(rowData)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length">
+        {{ messageService.paginatorNoRecordsFound }}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<app-button-action
+  [buttonActions]="buttonActions"
+  [isVisible]="isButtonActions"
+  (isHide)="isButtonActions = !$event"
+>
+</app-button-action>

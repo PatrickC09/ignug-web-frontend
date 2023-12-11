@@ -44,6 +44,10 @@ export class RoutesService {
     return this.core + '/moodle';
   }
 
+  get categories(): string {
+    return this.moodle + '/categories';
+  }
+
   enrollmentsDetailList(enrollmentId: string): string {
     return this.core + `/enrollments/${enrollmentId}/enrollment-details/`;
   }
