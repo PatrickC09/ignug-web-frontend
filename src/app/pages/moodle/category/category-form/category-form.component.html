@@ -1,0 +1,194 @@
+<app-skeleton
+  *ngIf="coreService.isLoading"
+  [type]="SkeletonEnum.CARD"
+></app-skeleton>
+
+<p-toolbar *ngIf="!coreService.isLoading">
+  <div class="p-toolbar-group-left">
+    <app-header-form [id]="id"></app-header-form>
+  </div>
+  <div class="p-toolbar-group-rigth">
+    <button
+      pButton
+      pRipple
+      type="button"
+      (click)="back()"
+      [icon]="IconButtonActionEnum.CANCEL"
+      [label]="LabelButtonActionEnum.CANCEL"
+      [loading]="coreService.isLoading"
+      [ngClass]="[ClassButtonActionEnum.CANCEL]"
+    >
+      <p-divider layout="vertical"></p-divider>
+    </button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      [icon]="IconButtonActionEnum.SAVE"
+      [label]="LabelButtonActionEnum.SAVE"
+      [loading]="coreService.isLoading"
+      [ngClass]="[ClassButtonActionEnum.SAVE]"
+    ></button>
+  </div>
+</p-toolbar>
+
+<p-panel
+  *ngIf="!coreService.isLoading"
+  class="p-fluid"
+  [header]="institutionField.value?.name"
+>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- isEnabled & isVisible -->
+    <div class="formgrid grid">
+      <div class="field xl:col-1 lg:col-1 md:col-1 sm:col-12">
+        <label
+          appLabel
+          for="isEnabled"
+          label="Activo:"
+          [required]="isEnabledField"
+        ></label>
+        <app-help-field
+          (mouseenter)="opIsEnabledField.toggle($event)"
+          (mouseleave)="opIsEnabledField.hide()"
+        ></app-help-field>
+        <p>
+          <p-inputSwitch
+            id="isEnabled"
+            formControlName="isEnabled"
+            [trueValue]="true"
+          ></p-inputSwitch>
+        </p>
+        <small
+          appErrorMessage
+          [errors]="isEnabledField.errors"
+          [touched]="isEnabledField.touched"
+          [dirty]="isEnabledField.dirty"
+        >
+        </small>
+      </div>
+
+      <div class="field xl:col-1 lg:col-1 md:col-1 sm:col-12">
+        <label
+          appLabel
+          for="isVisible"
+          label="Visible:"
+          [required]="isVisibleField"
+        ></label>
+        <app-help-field
+          (mouseenter)="opIsVisibleField.toggle($event)"
+          (mouseleave)="opIsVisibleField.hide()"
+        ></app-help-field>
+        <p>
+          <p-inputSwitch
+            id="isVisible"
+            formControlName="isVisible"
+            [trueValue]="true"
+          ></p-inputSwitch>
+        </p>
+        <small
+          appErrorMessage
+          [errors]="isVisibleField.errors"
+          [touched]="isVisibleField.touched"
+          [dirty]="isVisibleField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+
+    <!-- code -->
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="code"
+          label="Código:"
+          [required]="codeField"
+        ></label>
+        <input pInputText type="text" id="code" formControlName="code" />
+        <small
+          appErrorMessage
+          [errors]="codeField.errors"
+          [touched]="codeField.touched"
+          [dirty]="codeField.dirty"
+        >
+        </small>
+      </div>
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="codeSniese"
+          label="Código SNIESE:"
+          [required]="codeSnieseField"
+        ></label>
+        <input
+          pInputText
+          type="text"
+          id="codeSniese"
+          formControlName="codeSniese"
+        />
+        <small
+          appErrorMessage
+          [errors]="codeSnieseField.errors"
+          [touched]="codeSnieseField.touched"
+          [dirty]="codeSnieseField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+
+    <!-- name & shortName  -->
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="name"
+          label="Nombre:"
+          [required]="nameField"
+        ></label>
+        <input pInputText type="text" id="name" formControlName="name" />
+        <small
+          appErrorMessage
+          [errors]="nameField.errors"
+          [touched]="nameField.touched"
+          [dirty]="nameField.dirty"
+        >
+        </small>
+      </div>
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="shortName"
+          label="Nombre corto:"
+          [required]="shortNameField"
+        ></label>
+        <input
+          pInputText
+          type="text"
+          id="shortName"
+          formControlName="shortName"
+        />
+        <small
+          appErrorMessage
+          [errors]="shortNameField.errors"
+          [touched]="shortNameField.touched"
+          [dirty]="shortNameField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+  </form>
+</p-panel>
+
+<p-overlayPanel #opIsEnabledField>
+  <ng-template pTemplate="content">
+    Se toma en cuenta para realizar procesos
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #opIsVisibleField>
+  <ng-template pTemplate="content">
+    Es visible para el resto del sistema
+  </ng-template>
+</p-overlayPanel>

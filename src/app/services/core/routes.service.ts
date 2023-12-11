@@ -39,6 +39,11 @@ export class RoutesService {
     return this.core + '/enrollments';
   }
 
+  // moodle
+  get moodle(): string {
+    return this.core + '/moodle';
+  }
+
   enrollmentsDetailList(enrollmentId: string): string {
     return this.core + `/enrollments/${enrollmentId}/enrollment-details/`;
   }
